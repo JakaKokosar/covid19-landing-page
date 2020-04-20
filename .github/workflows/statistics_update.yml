@@ -1,0 +1,29 @@
+name: Statistics update
+
+# Note: https://crontab.guru/#15_*_*_*_*
+on:
+  schedule:
+    - cron:  '2 * * * *'
+
+jobs:
+  update_job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+
+      - name: Create local changes
+        run: |
+          echo "{"povabljeniPrebivalci" : "30001"}" > data/podatki.json
+      - name: Commit files
+        run: |
+          git remote --v
+          git commit -m "Auto-update" -a
+#      - name: Push changes
+#        uses: ad-m/github-push-action@master
+#        with:
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
